@@ -1,21 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useEffect} from 'react';
+import {Provider} from "react-redux";
+import {store} from "./src/redux/store";
+import {SafeAreaProvider} from "react-native-safe-area-context";
+import {Navigation} from "./src/components/Navigation";
+import * as SplashScreen from 'expo-splash-screen';
+
+const fonts = {
+    'SegoeUI': require('./assets/fonts/SegoeUI.ttf'),
+    'SegoeUIBold': require('./assets/fonts/SegoeUI-Bold.ttf'),
+    'SegoeUISemiBold': require('./assets/fonts/SegoeUI-SemiBold.ttf')
+}
+const assets = [require('./assets/splash.png'), require('./assets/logo.png')]
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    useEffect(() => {
+        (async () => {
+            await SplashScreen.preventAutoHideAsync();
+        })()
+    }, [])
+    return (
+        <SafeAreaProvider>
+            <Provider store={store}>
+                <Navigation fonts={fonts} assets={assets}/>
+            </Provider>
+        </SafeAreaProvider>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+
